@@ -24,6 +24,122 @@ class Queue:
     """
     def __init__(self):
         self.head = None
+        self.len = 0
 
     # Add your queue implementation here!
+    def __getitem__(self, key):
+        '''operator overload to get the item in the 
+        list at a particular index.
+        '''
+        curr = self.head
+        for i in range(key):
+            try:
+                curr = curr.next
+            except:
+                raise IndexError
+        try:
+            return curr.data
+        except:
+            raise IndexError
 
+    def __len__(self):
+        '''Returns the number of items in the queue.
+        '''
+        #count = 0
+        #curr = self.head
+        #while curr:
+        #    count += 1
+        #    curr = curr.next
+        #return count
+        return self.len
+
+    def append(self, data):
+        """Enqueues data into the list.
+        """
+        item = ListElem(data)
+        self.len += 1
+        if self.head:
+            curr = self.head
+            nxt = self.head.next
+            while nxt:
+                curr = nxt
+                nxt = curr.next
+            curr.next = item
+        else:
+            self.head = item
+
+    def popleft(self):
+        """Dequeues the first thing in the list.
+        """
+        self.len -= 1
+        if self.head:
+            item = self.head.data
+            self.head = self.head.next
+            return item
+        else:
+            raise IndexError
+
+    def insert(self, index, data):
+        """Inserts an element into the queue at a particular
+        index.
+        """
+        item = ListElem(data)
+        self.len += 1
+        prev = None
+        curr = self.head
+        count = 0
+        while curr:
+            if count == index:
+                break
+            prev = curr
+            curr = curr.next
+            count += 1
+        if prev:
+            prev.next = item
+        else:
+            self.head = item
+        item.next = curr
+        
+    def remove(self, value):
+        """Removes the first instance of a value from the queue.
+        Throws an error if the value doesn't exist in the list.
+        """
+        prev = None
+        curr = self.head
+        self.len -= 1
+        while(curr):
+            if value == curr.data:
+                if prev:
+                    prev.next = curr.next
+                    return
+                else:
+                    self.head = curr.next
+                    return
+            prev = curr
+            curr = curr.next
+        raise ValueError
+
+    def index(self, value):
+        """Finds the first instance of a value within the queue and
+        returns the index of the value.
+        """
+        curr = self.head
+        count = 0
+        while(curr):
+            if value == curr.data:
+                return count
+            curr = curr.next
+            count += 1
+        raise ValueError
+
+    def count(self, value):
+        """Counts the number of times a value appears in the queue
+        and returns the count.
+        """
+        curr = self.head
+        count = 0
+        while curr:
+            if curr.data == value:
+                count += 1
+            curr = curr.next
+        return count
