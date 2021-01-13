@@ -1,0 +1,38 @@
+name: Tweet On Push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout repo content
+        uses: actions/checkout@v2 # checkout the repository content to github runner.
+         
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8 #install the python needed
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: test speed of queue # run the queue_racer.py to get the latest performance data
+        run: |
+          python queue_racer.py --struct StudentQueue --test Basic
+          
+      - name: tweet performance stats # run the send_tweet.py
+        run: |
+          python send_tweet.py
+        env:
+          API_KEY: ${{ secrets.TWITTER_API_KEY }}
+          API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
+          ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+          SECRET_TOKEN_KEY: ${{ secrets.TWITTER_SECRET_TOKEN_KEY }}
+          USERNAME: ${{ github.actor }}
