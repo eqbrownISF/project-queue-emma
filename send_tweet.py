@@ -24,7 +24,9 @@ import tweepy
 import os
 import pandas as pd
 
-basic_tests_list = ["Min0", "Min1", "Append", "Pop", "Insert_front", "Insert_back", "Insert_random", "Length"]
+#basic_tests_list = ["Min0", "Min1", "Append", "Pop", "Insert_front", "Insert_back", "Insert_random", "Length"]
+
+basic_tests_list = ["Append","Pop","Insert_random","Length"]
 
 # get most recent test times
 if os.path.isfile('logs/.log_encoded.bin'):
