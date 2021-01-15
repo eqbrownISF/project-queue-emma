@@ -1,5 +1,5 @@
 # queue.py
-# dequeue: test 2
+# dequeue: test 3
 #
 # Base queue implementation for teh cs10 ADTs unit
 #
