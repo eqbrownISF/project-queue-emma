@@ -38,7 +38,7 @@ if os.path.isfile('logs/.log_encoded.bin'):
         # tweet it
         tweet = f'🏁 #queuerace update 🏁\n\n{os.environ["USERNAME"]} just pushed a queue that runs all the speed tests in {test_time_sum} seconds!\n\nCan you beat that? 🏎🏎🏎'
         auth = tweepy.OAuthHandler(os.environ["API_KEY"], os.environ["API_SECRET"])
-        auth.set_access_token(os.environ["ACCESS_TOKEN"], os.environ["ACCESS_TOKEN_KEY"])
+        auth.set_access_token(os.environ["ACCESS_TOKEN"], os.environ["ACCESS_TOKEN_SECRET"])
         api = tweepy.API(auth)
         api.update_status(tweet)
 
