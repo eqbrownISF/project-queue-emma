@@ -24,7 +24,9 @@ class Queue:
     """
     def __init__(self):
         self.head = None
+        self.tail = None
         self.len = 0
+        
 
     # Add your queue implementation here!
     def __getitem__(self, key):
@@ -58,15 +60,24 @@ class Queue:
         """
         item = ListElem(data)
         self.len += 1
+        # if self.head:
+            # curr = self.head
+            # nxt = self.head.next
+            # while nxt:
+                # curr = nxt
+                # nxt = curr.next
+            # curr.next = item
+        # else:
+            # self.head = item
+
+        # double ended queue 
         if self.head:
-            curr = self.head
-            nxt = self.head.next
-            while nxt:
-                curr = nxt
-                nxt = curr.next
-            curr.next = item
+            old_tail = self.tail
+            old_tail.next = item
+            self.tail = item 
         else:
             self.head = item
+            self.tail = item
 
     def popleft(self):
         """Dequeues the first thing in the list.
@@ -75,6 +86,10 @@ class Queue:
         if self.head:
             item = self.head.data
             self.head = self.head.next
+            
+            # double ended queue
+            if self.head == None:
+                self.tail = None 
             return item
         else:
             raise IndexError
@@ -109,6 +124,11 @@ class Queue:
         self.len -= 1
         while(curr):
             if value == curr.data:
+                # double ended queue
+                if curr == self.tail:
+                    self.tail = prev
+
+                # single linked queue
                 if prev:
                     prev.next = curr.next
                     return

@@ -20,7 +20,7 @@
 # =============================================================================
 
 import unittest
-from queue import Queue
+from student_queue import Queue
 
 
 class TestMin(unittest.TestCase):
