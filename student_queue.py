@@ -1,5 +1,5 @@
 # queue.py
-# dequeue: test 5
+# list property: test 1
 #
 # Base queue implementation for teh cs10 ADTs unit
 #
@@ -25,7 +25,7 @@ class Queue:
     """
     def __init__(self):
         self.head = None
-        self.tail = None
+        # self.tail = None
         self.len = 0
         
 
@@ -63,24 +63,24 @@ class Queue:
         self.len += 1
 
         # Vanilla Queue
-        # if self.head:
-            # curr = self.head
-            # nxt = self.head.next
-            # while nxt:
-                # curr = nxt
-                # nxt = curr.next
-            # curr.next = item
-        # else:
-            # self.head = item
-
-        # double ended queue 
         if self.head:
-            old_tail = self.tail
-            old_tail.next = item
-            self.tail = item 
+            curr = self.head
+            nxt = self.head.next
+            while nxt:
+                curr = nxt
+                nxt = curr.next
+            curr.next = item
         else:
             self.head = item
-            self.tail = item
+
+        # double ended queue 
+        # if self.head:
+            # old_tail = self.tail
+            # old_tail.next = item
+            # self.tail = item 
+        # else:
+            # self.head = item
+            # self.tail = item
 
     def popleft(self):
         """Dequeues the first thing in the list.
@@ -91,8 +91,8 @@ class Queue:
             self.head = self.head.next
             
             # double ended queue
-            if self.head == None:
-                self.tail = None 
+            # if self.head == None:
+                # self.tail = None 
             return item
         else:
             raise IndexError
@@ -128,8 +128,8 @@ class Queue:
         while(curr):
             if value == curr.data:
                 # double ended queue
-                if curr == self.tail:
-                    self.tail = prev
+                # if curr == self.tail:
+                    # self.tail = prev
 
                 # single linked queue
                 if prev:
