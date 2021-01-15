@@ -24,8 +24,8 @@ class Queue:
     """
     def __init__(self):
         self.head = None
-        self.tail = None
-        self.len = 0
+        # self.tail = None
+        # self.len = 0
         
 
     # Add your queue implementation here!
@@ -47,49 +47,49 @@ class Queue:
     def __len__(self):
         '''Returns the number of items in the queue.
         '''
-        #count = 0
-        #curr = self.head
-        #while curr:
-        #    count += 1
-        #    curr = curr.next
-        #return count
-        return self.len
+        count = 0
+        curr = self.head
+        while curr:
+           count += 1
+           curr = curr.next
+        return count
+        # return self.len
 
     def append(self, data):
         """Enqueues data into the list.
         """
         item = ListElem(data)
-        self.len += 1
-        # if self.head:
-            # curr = self.head
-            # nxt = self.head.next
-            # while nxt:
-                # curr = nxt
-                # nxt = curr.next
-            # curr.next = item
-        # else:
-            # self.head = item
-
-        # double ended queue 
+        # self.len += 1
         if self.head:
-            old_tail = self.tail
-            old_tail.next = item
-            self.tail = item 
+            curr = self.head
+            nxt = self.head.next
+            while nxt:
+                curr = nxt
+                nxt = curr.next
+            curr.next = item
         else:
             self.head = item
-            self.tail = item
+
+        # double ended queue 
+        # if self.head:
+            # old_tail = self.tail
+            # old_tail.next = item
+            # self.tail = item 
+        # else:
+            # self.head = item
+            # self.tail = item
 
     def popleft(self):
         """Dequeues the first thing in the list.
         """
-        self.len -= 1
+        # self.len -= 1
         if self.head:
             item = self.head.data
             self.head = self.head.next
             
             # double ended queue
-            if self.head == None:
-                self.tail = None 
+            # if self.head == None:
+                # self.tail = None 
             return item
         else:
             raise IndexError
@@ -99,7 +99,7 @@ class Queue:
         index.
         """
         item = ListElem(data)
-        self.len += 1
+        # self.len += 1
         prev = None
         curr = self.head
         count = 0
@@ -121,7 +121,7 @@ class Queue:
         """
         prev = None
         curr = self.head
-        self.len -= 1
+        # self.len -= 1
         while(curr):
             if value == curr.data:
                 # double ended queue
