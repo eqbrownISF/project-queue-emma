@@ -1,5 +1,5 @@
 # queue.py
-# vanilla: test 3
+# vanilla: test 2
 #
 # Base queue implementation for teh cs10 ADTs unit
 #
