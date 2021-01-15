@@ -1,5 +1,5 @@
 # queue.py
-# vanilla: test 3
+# lenth property: test 1
 #
 # Base queue implementation for teh cs10 ADTs unit
 #
@@ -26,7 +26,7 @@ class Queue:
     def __init__(self):
         self.head = None
         # self.tail = None
-        # self.len = 0
+        self.len = 0
         
 
     # Add your queue implementation here!
@@ -48,19 +48,19 @@ class Queue:
     def __len__(self):
         '''Returns the number of items in the queue.
         '''
-        count = 0
-        curr = self.head
-        while curr:
-           count += 1
-           curr = curr.next
-        return count
-        # return self.len
+        # count = 0
+        # curr = self.head
+        # while curr:
+           # count += 1
+           # curr = curr.next
+        # return count
+        return self.len
 
     def append(self, data):
         """Enqueues data into the list.
         """
         item = ListElem(data)
-        # self.len += 1
+        self.len += 1
         if self.head:
             curr = self.head
             nxt = self.head.next
@@ -83,7 +83,7 @@ class Queue:
     def popleft(self):
         """Dequeues the first thing in the list.
         """
-        # self.len -= 1
+        self.len -= 1
         if self.head:
             item = self.head.data
             self.head = self.head.next
@@ -100,7 +100,7 @@ class Queue:
         index.
         """
         item = ListElem(data)
-        # self.len += 1
+        self.len += 1
         prev = None
         curr = self.head
         count = 0
@@ -122,7 +122,7 @@ class Queue:
         """
         prev = None
         curr = self.head
-        # self.len -= 1
+        self.len -= 1
         while(curr):
             if value == curr.data:
                 # double ended queue
