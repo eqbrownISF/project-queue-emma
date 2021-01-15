@@ -1,5 +1,5 @@
 # queue.py
-#
+# emma
 # Base queue implementation for teh cs10 ADTs unit
 #
 # Our initial implementation will use a singly linked list. But, if you
