@@ -37,7 +37,7 @@ if os.path.isfile('logs/.log_encoded.bin'):
     if passed_tests["elapsed_time"].count() == len(basic_tests_list):
         test_time_sum = passed_tests.sum()["elapsed_time"]
 
-        tweet it
+        # tweet it
         tweet = f'🏁 #queuerace update 🏁\n\n{os.environ["USERNAME"]} just pushed a queue that runs all the speed tests in {test_time_sum} seconds!\n\nCan you beat that? 🏎🏎🏎'
         auth = tweepy.OAuthHandler(os.environ["API_KEY"], os.environ["API_SECRET"])
         auth.set_access_token(os.environ["ACCESS_TOKEN"], os.environ["ACCESS_TOKEN_SECRET"])
