@@ -108,11 +108,22 @@ class Queue:
 
         # dequeue
         if index == self.len:
-            self.tail.next = item
-            self.tail = item
+            if index == 0:
+                old_head = self.head
+                self.head = item
+                self.tail = item
+                item.next = old_head
+
+            else:
+                self.tail.next = item
+                self.tail = item
         else:
         # vanilla
             while curr:
+                if index == self.len:
+                    self.tail.next = item
+                    self.tail = item
+                    break
                 if count == index:
                     break
                 prev = curr
