@@ -36,11 +36,17 @@ if os.path.isfile('logs/.log_encoded.bin'):
     passed_tests = grading_tests[grading_tests['passed_functionality_tests']]
     if passed_tests["elapsed_time"].count() == len(basic_tests_list):
         # tweet it
-        tweet = f'🏁 #queuerace update 🏁\n\n{os.environ["USERNAME"]} just pushed a queue with the following stats:\n'
-        # tweet = f'🏁 #queuerace update 🏁\n\n{"USERNAME"} just pushed a queue with the following stats:\n'
+        # tweet = f'🏁 #queuerace update 🏁\n\nUSERNAME just pushed a queue!'
+        tweet = f'🏁 #queuerace update 🏁\n\n{os.environ["USERNAME"]} just pushed a queue with the following stats:'
+        tweet += f'\n\nThroughput (relative to performance target):\n'
+        targets_df = pd.read_csv('performance_targets.csv').set_index("function")
+        weighted_throughputs_list = []
         for index, test in passed_tests.iterrows():
-            tweet += f'{test["test_name"]}: {test["elapsed_time"]} secs\n'
-        
+            throughput = 100*targets_df.loc[test["test_name"]]["target"] / test["elapsed_time"]
+            tweet += f'|   {test["test_name"]}: {round(throughput, 2)}%\n'
+            weighted_throughputs_list.append(throughput*targets_df.loc[test["test_name"]]["weight"])
+        throughput_score = sum(weighted_throughputs_list)
+        tweet += f'Score: {round(throughput_score, 2)}%'
         tweet += "\n\nCan you beat that? 🏎🏎🏎"
         auth = tweepy.OAuthHandler(os.environ["API_KEY"], os.environ["API_SECRET"])
         auth.set_access_token(os.environ["ACCESS_TOKEN"], os.environ["ACCESS_TOKEN_SECRET"])
