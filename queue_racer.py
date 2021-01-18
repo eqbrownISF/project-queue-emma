@@ -19,7 +19,7 @@
 #
 # =============================================================================
 
-from student_queue import Queue as StudentQueue
+from len_queue import Queue as StudentQueue
 from collections import deque
 
 import unittest
@@ -335,11 +335,15 @@ def insert_tests(structs):
                 timer.stop()
 
     print(f"Testing {data_size} insert() into random index of queue:")
-    insert_sequence = [random.randint(0, i) for i in range(data_size)]
+    insert_sequences = []
+    for i in range(iterations):
+        insert_sequence = [random.randint(0, i) for i in range(data_size)]
+        insert_sequences.append(insert_sequence)
     for struct in structs:
         struct_name = struct_names_dict[struct]
         with time_iterations(struct_name, test_name+"_random", passed_tests) as timer:
             for i in tqdm(range(iterations), desc=struct_name, leave=False):
+                insert_sequence = insert_sequences[i]
                 q = struct()
                 timer.start()
                 for index, order in zip(insert_sequence, orders):
