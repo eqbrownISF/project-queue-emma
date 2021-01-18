@@ -1,5 +1,5 @@
 # queue.py
-# test 1
+# 
 #
 # Base queue implementation for teh cs10 ADTs unit
 #
@@ -25,8 +25,6 @@ class Queue:
     """
     def __init__(self):
         self.head = None
-        # self.tail = None
-        self.len = 0
         
 
     # Add your queue implementation here!
@@ -48,21 +46,18 @@ class Queue:
     def __len__(self):
         '''Returns the number of items in the queue.
         '''
-        # count = 0
-        # curr = self.head
-        # while curr:
-           # count += 1
-           # curr = curr.next
-        # return count
-        return self.len
+        count = 0
+        curr = self.head
+        while curr:
+           count += 1
+           curr = curr.next
+        return count
 
     def append(self, data):
         """Enqueues data into the list.
         """
         item = ListElem(data)
-        self.len += 1
 
-        # Vanilla Queue
         if self.head:
             curr = self.head
             nxt = self.head.next
@@ -73,14 +68,7 @@ class Queue:
         else:
             self.head = item
 
-        # double ended queue 
-#         if self.head:
-#             old_tail = self.tail
-#             old_tail.next = item
-#             self.tail = item 
-#         else:
-#             self.head = item
-#             self.tail = item
+        
 
     def popleft(self):
         """Dequeues the first thing in the list.
@@ -89,11 +77,7 @@ class Queue:
         if self.head:
             item = self.head.data
             self.head = self.head.next
-            
-            # double ended queue
-            # if self.head == None:
-                # self.tail = None 
-            return item
+        
         else:
             raise IndexError
 
@@ -106,19 +90,7 @@ class Queue:
         curr = self.head
         count = 0
 
-        # dequeue
-        # if index == self.len:
-            # if index == 0:
-                # old_head = self.head
-                # self.head = item
-                # self.tail = item
-                # item.next = old_head
 
-            # else:
-                # self.tail.next = item
-                # self.tail = item
-        # else:
-        # vanilla
         while curr:
             if count == index:
                 break
@@ -130,7 +102,6 @@ class Queue:
         else:
             self.head = item
         item.next = curr
-        self.len += 1
         
     def remove(self, value):
         """Removes the first instance of a value from the queue.
@@ -138,14 +109,9 @@ class Queue:
         """
         prev = None
         curr = self.head
-        self.len -= 1
+
         while(curr):
             if value == curr.data:
-                # double ended queue
-                # if curr == self.tail:
-                    # self.tail = prev
-
-                # single linked queue
                 if prev:
                     prev.next = curr.next
                     return
