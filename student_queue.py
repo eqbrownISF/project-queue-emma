@@ -73,7 +73,6 @@ class Queue:
     def popleft(self):
         """Dequeues the first thing in the list.
         """
-        self.len -= 1
         if self.head:
             item = self.head.data
             self.head = self.head.next
