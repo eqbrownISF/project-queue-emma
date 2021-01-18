@@ -19,7 +19,7 @@
 #
 # =============================================================================
 
-from dequeue_queue import Queue as StudentQueue
+from len_queue import Queue as StudentQueue
 from collections import deque
 
 import unittest
