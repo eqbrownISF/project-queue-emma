@@ -20,7 +20,7 @@
 # =============================================================================
 
 import unittest
-from len_queue import Queue
+from student_queue import Queue
 
 
 class TestMin(unittest.TestCase):
@@ -154,6 +154,16 @@ class TestRemoveMethod(unittest.TestCase):
 class TestInsertMethod(unittest.TestCase):
     def setUp(self):
         self.q = Queue()
+
+    def test_insert_into_empty(self):
+        self.q.insert(0, 0)
+        self.assertEqual(self.q.head.data, 0)
+
+    def test_insert_into_len_one(self):
+        self.q.insert(0, 1)
+        self.q.insert(0, 0)
+        self.assertEqual(self.q.head.data, 0)
+        self.assertEqual(self.q.head.next.data, 1)
 
     def test_insert_at_start(self):
         self.q.append(0)
