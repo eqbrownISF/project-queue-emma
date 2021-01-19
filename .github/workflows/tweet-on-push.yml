@@ -25,7 +25,7 @@ jobs:
 
       - name: test speed of queue # run the queue_racer.py to get the latest performance data
         run: |
-          python queue_racer.py --struct StudentQueue --test Basic
+          python queue_racer.py --struct StudentQueue deque --test Basic
           
       - name: tweet performance stats # run the send_tweet.py
         run: |

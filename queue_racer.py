@@ -19,7 +19,7 @@
 #
 # =============================================================================
 
-from len_queue import Queue as StudentQueue
+from dequeue_queue import Queue as StudentQueue
 from collections import deque
 
 import unittest
@@ -43,21 +43,21 @@ iterations = 10
 
 struct_names_dict = {
     StudentQueue: "StudentQueue",
-    deque: "StudentQueue",
+    deque: "Python deque",
     list: "Python list "
 }
 
 basic_tests_list = ["Min", "Append", "Pop", "Length", "Insert"]
 
-def log_run(test, elapsed_time, passed_tests):
-    log = f"{datetime.utcnow()},{test},{elapsed_time},{iterations},{elapsed_time / iterations},{data_size * iterations},{elapsed_time / (iterations * data_size)},{passed_tests}" + "\n"
+def log_run(struct_name, test, elapsed_time, passed_tests):
+    log = f"{datetime.utcnow()},{struct_name},{test},{elapsed_time},{iterations},{elapsed_time / iterations},{data_size * iterations},{elapsed_time / (iterations * data_size)},{passed_tests}" + "\n"
 
     if os.path.isfile('logs/.log_encoded.bin'):
         with open('logs/.log_encoded.bin', 'ab') as f:
             f.write(log.encode('IBM037'))
     else:
         with open('logs/.log_encoded.bin', 'wb') as f:
-            header = "test_date,test_name,elapsed_time,num_iterations,time_per_iteration,num_operations,time_per_operation,passed_functionality_tests" + "\n"
+            header = "test_date,struct_name,test_name,elapsed_time,num_iterations,time_per_iteration,num_operations,time_per_operation,passed_functionality_tests" + "\n"
             f.write(header.encode('IBM037'))
             f.write(log.encode('IBM037'))
     #make log.csv from encoded log
@@ -84,8 +84,7 @@ class time_iterations():
         self.elapsed_time += self.stop_time - self.start_time
 
     def __exit__(self, exc_type, exc, exc_tb):
-        if self.struct_name == "StudentQueue":
-            log_run(self.test_name, self.elapsed_time, self.passed_tests)
+        log_run(self.struct_name, self.test_name, self.elapsed_time, self.passed_tests)
         print(f" ---> {self.struct_name} .............. {self.elapsed_time / iterations} sec/it")
         return False
 

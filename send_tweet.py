@@ -31,22 +31,29 @@ basic_tests_list = ["Append","Pop","Insert_random","Length"]
 # get most recent test times
 if os.path.isfile('logs/.log_encoded.bin'):
     log_df = pd.read_csv('logs/.log_encoded.bin', encoding='IBM037')
-    most_recent_tests = log_df.sort_values('test_date').drop_duplicates('test_name',keep='last')
-    grading_tests = most_recent_tests[most_recent_tests['test_name'].isin(basic_tests_list)]
-    passed_tests = grading_tests[grading_tests['passed_functionality_tests']]
-    if passed_tests["elapsed_time"].count() == len(basic_tests_list):
+    student_df = log_df[log_df["struct_name"]=="StudentQueue"]
+    deque_df = log_df[log_df["struct_name"]=="Python deque"]
+    most_recent_student = student_df.sort_values('test_date').drop_duplicates('test_name',keep='last')
+    most_recent_deque = deque_df.sort_values('test_date').drop_duplicates('test_name',keep='last')
+    student_grading_tests = most_recent_student[most_recent_student['test_name'].isin(basic_tests_list)]
+    deque_grading_tests = most_recent_deque[most_recent_deque['test_name'].isin(basic_tests_list)]
+    deque_grading_tests = deque_grading_tests.set_index("test_name")
+    student_passed_tests = student_grading_tests[student_grading_tests['passed_functionality_tests']]
+    if student_passed_tests["elapsed_time"].count() == len(basic_tests_list):
         # tweet it
         # tweet = f'🏁 #queuerace update 🏁\n\nUSERNAME just pushed a queue!'
         tweet = f'🏁 #queuerace update 🏁\n\n{os.environ["USERNAME"]} just pushed a queue with the following stats:'
         tweet += f'\n\nThroughput (relative to performance target):\n'
-        targets_df = pd.read_csv('performance_targets.csv').set_index("function")
+        sum_deque_times = sum(deque_grading_tests["elapsed_time"])
         weighted_throughputs_list = []
-        for index, test in passed_tests.iterrows():
-            throughput = 100*targets_df.loc[test["test_name"]]["target"] / test["elapsed_time"]
+        for index, test in student_passed_tests.iterrows():
+            deque_test_time = deque_grading_tests.loc[test["test_name"]]["elapsed_time"]
+            throughput = 100*deque_test_time / test["elapsed_time"]
             tweet += f'|   {test["test_name"]}: {round(throughput, 2)}%\n'
-            weighted_throughputs_list.append(throughput*targets_df.loc[test["test_name"]]["weight"])
+            test_weight = (1/40) + (9/10)*(deque_test_time/sum_deque_times)
+            weighted_throughputs_list.append(throughput*test_weight)
         throughput_score = sum(weighted_throughputs_list)
-        tweet += f'Score: {round(throughput_score, 2)}%'
+        tweet += f'Score: {round(throughput_score*10, 2)}'
         tweet += "\n\nCan you beat that? 🏎🏎🏎"
         auth = tweepy.OAuthHandler(os.environ["API_KEY"], os.environ["API_SECRET"])
         auth.set_access_token(os.environ["ACCESS_TOKEN"], os.environ["ACCESS_TOKEN_SECRET"])
